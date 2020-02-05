@@ -33,7 +33,10 @@ init = () => {
     }, 40000)
 
 
-
+    setTimeout(() => {
+        // document.getElementById("cart").setAttribute('alongpath', "curve: #track1")
+        // document.getElementById("camera").setAttribute('alongpath', "curve: #track1")
+    }, 4000)
     
 
 

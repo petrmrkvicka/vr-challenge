@@ -4,43 +4,106 @@
     <meta charset="utf-8">
     <title>VR Challenge</title>
     <meta name="description" content="VR Challenge - Elis Laasik, Monika Styxova, Petr Mrkvicka">
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js"></script>
-  </head>
-  <body>
-    <a-scene light="defaultLightsEnabled: false">
+    <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>  
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-timeline-component@2.0.0/dist/aframe-animation-timeline-component.min.js"></script>
+    <script>
+        AFRAME.registerComponent("enter-vr", {
+          init: function() {
+              document.querySelector('a-scene').addEventListener('enter-vr', function () {
+                  console.log("ENTERED VR");
+                  const el = document.querySelector("#cursor");
+                  el.setAttribute("visible", false);
+              });
+          }
+        });
+        AFRAME.registerComponent('sphere-on-click',{
+          init: function() {
+              const view = document.getElementById("scene");
+              this.el.addEventListener('click', function() {
+                  view.emit("startAnimation");
+                  setTimeout(() => {
+                    document.getElementsByTagName("a-scene")[0].setAttribute("environment", "preset: tron")
+                  }, 15000)
+              });
+          }
+        });
+    </script>
+    <body>
+    <a-scene 
+      id="scene" background="color: #FAFAFA" environment="preset: egypt" enter-vr
+      light="defaultLightsEnabled: false"
+      animation-timeline__1="timeline: #myTimeline; loop:false; startEvents: startAnimation">
+      <!-- assets -->
       <a-assets>
         <a-mixin id="cartLight"
           light="type: spot; intensity: 0.75; distance: 0; decay: 2; angle: 30;"
-          rotation="180 90 0" ></a-mixin>
+          rotation="0 0 0" >
+        </a-mixin>
+        <a-timeline id="myTimeline">
+            <a-timeline-group>
+                <a-timeline-animation select="#cart" name="start_1move"></a-timeline-animation>
+                <a-timeline-animation select="#cart" name="start_1rotate"></a-timeline-animation>
+            </a-timeline-group>
+            <a-timeline-group>
+                <a-timeline-animation select="#cart" name="start_2rotate"></a-timeline-animation>
+                <a-timeline-animation select="#cart" name="start_2move"></a-timeline-animation>
+            </a-timeline-group>
+            <a-timeline-group>
+                <a-timeline-animation select="#cart" name="start_3rotate"></a-timeline-animation>
+                <a-timeline-animation select="#cart" name="start_3move"></a-timeline-animation>
+            </a-timeline-group>
+        </a-timeline>
       </a-assets>
-      <a-entity camera look-controls wasd-controls="enabled:false" position="0 1.5 0"></a-entity>
-    
-
-
-
-
-
-
-
-
-
-
-
-
+      <!-- camera controls -->
+      <!-- curve -->
+      <a-curve id="track1">
+        <a-curve-point position="0 0 0"></a-curve-point>
+        <a-curve-point position="0 1 -4"></a-curve-point>
+        <!-- <a-curve-point position="-2 2 -5"></a-curve-point> -->
+      </a-curve>
+      
+      <!-- track -->
+      <a-box position="0 0.5 -2" height="0.02" depth="4" rotation="10 0 0"></a-box>
+      <a-box position="-25.95 5.290 -5.935" height="0.02" depth="53.64" rotation="9.89 84.73 13.25"></a-box>
+      
+      <a-entity id="text_welcome" scale="2 2 1" rotation="0 0 0" position="0 1 -4" text="value: Click the sphere!;"></a-entity>
+      <a-sphere id="sphere" scale="10 10 10" position="0.04869 12.70203 -32.54918" radius="1.25" color="#EF2D5E" material="" geometry="" sphere-on-click></a-sphere>
+      
+      
       <!-- cart -->
-      <a-box position="0 0 0" rotation="0 90 0" width="2" height="0.4" color="gray" metalness="0.3">
-        <a-box color="gray" height="1" width="0.1" position="0.95 0.4 0" metalness="0.3"></a-box>
-        <a-box color="gray" height="1" width="0.1" position="-0.95 0.4 0" metalness="0.3"></a-box>
-        <a-box color="gray" height="1" width="0.1" position="0 0.4 -0.5" rotation="0 90 0" scale="1 1 2" metalness="0.3"></a-box>
-        <a-box color="gray" height="1" width="0.1" position="0 0.4 0.5" rotation="0 90 0" scale="1 1 2" metalness="0.3"></a-box>
+      <a-box position="0 0 0" rotation="0 0 0" width="1" height="0.4" depth="2" color="gray" metalness="0.3" id="cart"
+        animation__start_1rotate="property: rotation; from: 0 0 0; to: 10 0 0; dur: 800; easing: easeInOutQuad; autoplay:false"
+        animation__start_1move="property: position; from: 0 0 0; to: 0 1 -4; dur: 2000; easing: easeInOutQuad; autoplay:false"
+        animation__start_2rotate="property: rotation; from: 10 0 0; to: 20 80 0; dur: 800; easing: easeInOutQuad; autoplay:false"
+        animation__start_2move="property: position; from: 0 1 -4; to: -50 10 -8; dur: 8000; easing: easeInOutQuad; autoplay:false"
+        animation__start_3rotate="property: rotation; from: 20 70 0; to: 10 10 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_3move="property: position; from: -50 10 -8; to: -60 15 -50; dur: 5000; easing: easeInOutQuad; autoplay: false"
+        
+
+
+
+      >
+        <a-entity camera look-controls wasd-controls="enabled:true" position="0 1.5 0" id="camera" rotation="0 90 0">
+            <a-entity id="cursor" cursor="fuse: false;"
+              position="0 0 -1"
+              geometry="primitive: ring; radiusInner: 0.015; radiusOuter: 0.02"
+              material="color: white; shader: flat">
+            </a-entity>
+        </a-entity>
+        <a-box color="gray" height="1" width="0.1" position="0.5 0.4 0" metalness="0.3" scale="1 1 2" ></a-box>
+        <a-box color="gray" height="1" width="0.1" position="-0.5 0.4 0" metalness="0.3" scale="1 1 2" ></a-box>
+        <a-box color="gray" height="1" width="0.1" position="0 0.4 -0.95" rotation="0 90 0" metalness="0.3"></a-box>
+        <a-box color="gray" height="1" width="0.1" position="0 0.4 0.95" rotation="0 90 0" metalness="0.3"></a-box>
         <a-entity light="type:directional; intensity:0.6" position="-0.5 1 1"></a-entity>    
-        <a-entity mixin="cartLight" position="1 0.5 0.5"></a-entity>          
-        <a-entity mixin="cartLight" position="1 0.5 -0.5"></a-entity>          
+        <a-entity mixin="cartLight" position="0.5 0.5 -1"></a-entity>          
+        <a-entity mixin="cartLight" position="-0.5 0.5 -1"></a-entity>          
       </a-box>
       <!-- end cart -->
 
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="400" height="400" color="#7BC8A4"></a-plane>
+      <!-- <a-plane position="0 0 -4" rotation="-90 0 0" width="400" height="400" color="#7BC8A4"></a-plane> -->
       <a-sky color="black"></a-sky>
     </a-scene>
   </body>
