@@ -22,17 +22,32 @@
           }
         });
         AFRAME.registerComponent('cart-start-on-click',{
-          init: function() {
-              const view = document.getElementById("scene");
-              this.el.addEventListener('click', function() {
-                  if(driving)
-                      return;
-                  view.emit("startAnimation");
+            init: function() {
+                const view = document.getElementById("scene");
+                this.el.addEventListener('click', function() {
+                    if(driving)
+                        return;
+                    view.emit("startAnimation");
+                    let count = 0
+                    driving = true;
+                    setInterval(() => count += 1, 1000)
+                    changeEnvironment = () => {
+                        const env = [{theme: "forest", music: "night2.wav"}, {theme: "egypt", music: "egypt.mp3"}, {theme:"contact", music: "tron.mp3"}]
+                        const rand = Math.floor(Math.random() * env.length)
+                        const chosen = env[rand]
 
-                  driving = true;
-              });
+                        view.setAttribute("environment", "preset: " + chosen.theme)
+                        document.getElementById("cart").setAttribute("sound", "src: url(assets/" + chosen.music + "); autoplay: true; loop: true")
+                    }
 
-          }
+
+                    setTimeout(() => changeEnvironment(), 4500)
+                    setTimeout(() => changeEnvironment(), 7500)
+                    setTimeout(() => changeEnvironment(), 10500)
+                    setTimeout(() => changeEnvironment(), 17500)
+                    setTimeout(() => driving = false, 24000)
+                });
+            }
         });
         AFRAME.registerComponent('horn-on-click',{
           init: function() {
@@ -48,12 +63,15 @@
     <a-scene 
       id="scene" background="color: #FAFAFA" environment="preset: forest" enter-vr
       light="defaultLightsEnabled: false"
-      animation-timeline__1="timeline: #myTimeline; loop:true; startEvents: startAnimation; direction: normal;"
+      animation-timeline__1="timeline: #myTimeline; loop:false; startEvents: startAnimation; direction: normal;"
          >
         <!-- assets -->
         <a-assets>
             <audio src="assets/birds.wav" autoplay preload></audio>
             <audio id="horn" src="assets/horn.wav" preload></audio>
+            <audio id="egypt" src="assets/egypt.mp3" preload></audio>
+            <audio id="egypt" src="assets/tron.mp3" preload></audio>
+            <audio id="forest" src="assets/night2.wav" preload></audio>
 
         </a-assets>
 
@@ -114,28 +132,31 @@
       
       <!-- cart -->
       <a-box position="0 1 0" rotation="0 80 0" width="1" height="0.4" depth="2" color="gray" metalness="0.3" id="cart"
-        animation__start_1rotate="property: rotation;    to: 0 80 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-         animation__start_2rotate="property: rotation; from: 0 80 0;         to: 0 20 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_3rotate="property: rotation; from: 0 20 0;         to: 0 0 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_4rotate="property: rotation; from: 0 0 0;          to: 0 -20 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_5rotate="property: rotation; from: 0 -20 0;        to: 0 -90 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_6rotate="property: rotation; from: 0 -90 0;       to: 0 -150 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_7rotate="property: rotation; from: 0 -150 0;        to: 0 -180 0; dur: 700; easing: easeInOutQuad; autoplay:false"
-        animation__start_8rotate="property: rotation; from: 0 -180 0;       to: 0 -240 0; dur: 700; easing: easeInOutQuad; autoplay:false"
 
-        animation__start_1move="property: position; from: 0 1 0;            to: -20 1 0; dur: 3000; easing: easeInOutQuad; autoplay:false"
-        animation__start_2move="property: position; from: -20 1 0;          to: -25 1 -20; dur: 3000; easing: easeInOutQuad; autoplay:false"
-        animation__start_3move="property: position; from: -25 1 -20;        to: -25 1 -40; dur: 3000; easing: easeInOutQuad; autoplay: false"
-        animation__start_4move="property: position; from: -25 1 -40;        to: -20 1 -60; dur: 3000; easing: easeInOutQuad; autoplay: false"
-        animation__start_5move="property: position; from: -20 1 -60;        to: 10 1 -60; dur: 3000; easing: easeInOutQuad; autoplay: false"
-        animation__start_6move="property: position; from: 10 1 -60;          to: 20 1 -40; dur: 3000; easing: easeInOutQuad; autoplay: false"
-        animation__start_7move="property: position; from: 20 1 -40;         to: 20 1 -20; dur: 3000; easing: easeInOutQuad; autoplay: false"
-        animation__start_8move="property: position; from: 20 1 -20;         to: 0 1 0; dur: 3000; easing: easeInOutQuad; autoplay: false"
+        sound="src: url(assets/night2.wav); autoplay: true; loop: true"
+
+        animation__start_1rotate="property: rotation; to: 0 80 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_2rotate="property: rotation; from: 0 80 0; to: 0 20 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_3rotate="property: rotation; from: 0 20 0; to: 0 0 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_4rotate="property: rotation; from: 0 0 0; to: 0 -20 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_5rotate="property: rotation; from: 0 -20 0; to: 0 -90 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_6rotate="property: rotation; from: 0 -90 0; to: 0 -150 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_7rotate="property: rotation; from: 0 -150 0; to: 0 -180 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+        animation__start_8rotate="property: rotation; from: 0 -180 0; to: 0 -240 0; dur: 700; easing: easeInOutQuad; autoplay:false"
+
+        animation__start_1move="property: position; from: 0 1 0; to: -20 1 0; dur: 3000; easing: linear; autoplay:false"
+        animation__start_2move="property: position; from: -20 1 0; to: -25 1 -20; dur: 3000; easing: linear; autoplay:false"
+        animation__start_3move="property: position; from: -25 1 -20; to: -25 1 -40; dur: 3000; easing: linear; autoplay: false"
+        animation__start_4move="property: position; from: -25 1 -40; to: -20 1 -60; dur: 3000; easing: linear; autoplay: false"
+        animation__start_5move="property: position; from: -20 1 -60; to: 10 1 -60; dur: 3000; easing: linear; autoplay: false"
+        animation__start_6move="property: position; from: 10 1 -60; to: 20 1 -40; dur: 3000; easing: linear; autoplay: false"
+        animation__start_7move="property: position; from: 20 1 -40; to: 20 1 -20; dur: 3000; easing: linear; autoplay: false"
+        animation__start_8move="property: position; from: 20 1 -20; to: 0 1 0; dur: 3000; easing: linear; autoplay: false"
       >
 
 
-        <a-entity camera look-controls wasd-controls="enabled:true" position="0 1.5 0" id="camera" rotation="0 90 0">
-            <a-entity id="cursor" cursor="fuse: false;"
+        <a-entity camera look-controls wasd-controls="enabled:false" position="0 1.5 0" id="camera" rotation="0 90 0">
+            <a-entity id="cursor" cursor="fuse: true;"
               position="0 0 -1"
               geometry="primitive: ring; radiusInner: 0.015; radiusOuter: 0.02"
               material="color: white; shader: flat">
@@ -159,6 +180,11 @@
       </a-box>
       <!-- end cart -->
 
+      <!-- intro text -->
+      <a-entity text="value: Red for a honk; align: center; color: #F00000" position="-2.03508 2.2476 -0.90312" rotation="0 80 0" scale="1.8 1.95 2.05"></a-entity>
+      <a-entity text="value: Green for the ride; align: center; color: #00F000" position="-2.03508 2.2476 0.06916" rotation="0 100 0" scale="1.8 1.95 2.05"></a-entity>
+      <!-- <a-entity text="value: Hello World;" position="-10 2 -2" scale="3 3 3"></a-entity> -->
+      <!-- mushrooms -->
         <a-entity position="10 -0.5 3">
         <a-cone color="tomato" radius-bottom="1" radius-top="0.5" position="0 2 0" ></a-cone>
         <a-cylinder color="#E6DEDE" depth="0.5" height="1" radius="0.5" position="0 1 0" ></a-cylinder>
@@ -184,7 +210,9 @@
         <a-cone color="tomato" radius-bottom="1" radius-top="0.5" position="0 2 0" ></a-cone>
         <a-cylinder color="#E6DEDE" depth="0.5" height="1" radius="0.5" position="0 1 0" ></a-cylinder>
         </a-entity>
+        <!-- end mushroos -->
       <a-sky color="black"></a-sky>
+      <!-- trees -->
         <a-entity position="1 0.75 3">
             <a-cylinder radius="0.25" height="1" color="brown" shadow></a-cylinder>
             <a-cone position="0 1 0" radius-bottom=".75" radius-top="0" height="1.75" color="green"></a-cone>
@@ -209,6 +237,8 @@
             <a-cylinder radius="0.25" height="1" color="brown" shadow></a-cylinder>
             <a-cone position="0 1 0" radius-bottom=".75" radius-top="0" height="1.75" color="green"></a-cone>
         </a-entity>
+        <!-- end trees -->
+        <!-- flowes -->
         <a-entity position="0 0 3">
             <a-torus-knot color="#D00000" arc="180" p="1" q="6" radius="0.2" radius-tubular="0.1" position="-5 0 -3" rotation="90 0 0"></a-torus-knot>
         </a-entity>
@@ -245,6 +275,7 @@
         <a-entity position="56 0 50">
             <a-torus-knot color="#D00000" arc="180" p="1" q="6" radius="0.2" radius-tubular="0.1" position="-5 0 -3" rotation="90 0 0"></a-torus-knot>
         </a-entity>
+        <!-- end flowers -->
            </a-scene>
   </body>
   <script src="themes/all.js"></script>
