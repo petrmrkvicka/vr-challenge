@@ -28,9 +28,9 @@ init = () => {
     flickerLights()
 
     // change colors after 40 s
-    setTimeout(() => {
-        custChangeAttributes("horror")
-    }, 40000)
+ //   setTimeout(() => {
+ //       custChangeAttributes("horror")
+//    }, 40000)
 
 
     setTimeout(() => {
