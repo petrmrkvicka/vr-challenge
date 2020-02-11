@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
     <script src="https://unpkg.com/aframe-animation-timeline-component@2.0.0/dist/aframe-animation-timeline-component.min.js"></script>
     <script>
-        let driving = false;
+
 
         AFRAME.registerComponent("enter-vr", {
           init: function() {
@@ -27,8 +27,6 @@
                   if(driving)
                       return;
                   view.emit("startAnimation");
-
-                  driving = true;
               });
 
           }
