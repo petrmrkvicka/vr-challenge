@@ -9,6 +9,7 @@
     <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>  
     <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
     <script src="https://unpkg.com/aframe-animation-timeline-component@2.0.0/dist/aframe-animation-timeline-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <script>
         let driving = false;
 
@@ -127,7 +128,9 @@
       <a-box position="-25.95 5.290 -5.935" height="0.02" depth="53.64" rotation="9.89 84.73 13.25"></a-box>
       track -->
 
-      
+      <!-- birds -->
+      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="1 1 1" color="gray"></a-box>
+
       <!-- cart -->
       <a-box position="0 1 0" rotation="0 80 0" width="1" height="0.4" depth="2" color="gray" metalness="0.3" id="cart"
 
