@@ -61,7 +61,7 @@
     </script>
     <body>
     <a-scene 
-      id="scene" background="color: #FAFAFA" environment="preset: forest" enter-vr
+      id="scene" background="color: #FAFAFA" environment="preset: default" enter-vr
       light="defaultLightsEnabled: false"
       animation-timeline__1="timeline: #myTimeline; loop:false; startEvents: startAnimation; direction: normal;"
          >
@@ -129,7 +129,10 @@
       track -->
 
       <!-- birds -->
-      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="1 1 1" color="gray"></a-box>
+      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="0.4 0.4 0.4" color="gray" material="opacity: 0.3; transparent: true"></a-box>
+      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="1 1 1" color="gray" material="opacity: 0.4; transparent: true"></a-box>
+      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="0.2 0.2 0.2" color="gray" material="opacity: 0.2; transparent: true"></a-box>
+      <a-box random-position="min: -15 5 -15; max: 5 8 5" sound="src: url(assets/horn.wav); autoplay: true; loop: true;" position="0 0 8" scale="1.3 1.3 1.3" color="gray" material="opacity: 0.6; transparent: true"></a-box>
 
       <!-- cart -->
       <a-box position="0 1 0" rotation="0 80 0" width="1" height="0.4" depth="2" color="gray" metalness="0.3" id="cart"
